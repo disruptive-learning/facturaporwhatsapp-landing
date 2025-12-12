@@ -1,98 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap');
+
 @import "tailwindcss";
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  --color-coral: #EF713D;
+  --color-charcoal: #222831;
+  --color-tech-grey: #C3CFD9;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Base Styles */
+@layer base {
+  body {
+    @apply antialiased;
   }
-  a:hover {
-    color: #747bff;
+  
+  * {
+    font-family: 'Outfit', 'Metropolis', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .font-metropolis {
+    font-family: 'Outfit', 'Metropolis', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
+}
+
+/* Custom Components */
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 lg:px-8;
+  }
+  
+  /* Typography */
+  .heading-1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-black leading-tight;
+  }
+  
+  .heading-2 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-black;
+  }
+  
+  .heading-3 {
+    @apply text-xl md:text-2xl font-bold mt-4 mb-2;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    @apply bg-coral text-white font-bold py-4 px-8 rounded-full 
+           uppercase tracking-wide transform transition-all duration-300 hover:scale-105 hover:shadow-xl
+           active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-charcoal font-bold py-4 px-8 rounded-full 
+           uppercase tracking-wide transform transition-all duration-300 hover:scale-105 hover:shadow-xl
+           active:scale-95;
+  }
+  
+  /* Sections */
+  .hero-section {
+    @apply pt-32 pb-20 min-h-screen flex items-center;
+    background: #ffffff;
+  }
+  
+  .pricing-section {
+    @apply py-20 bg-gray-50;
+  }
+  
+  .features-section {
+    @apply py-20 bg-white;
+  }
+  
+  .cta-section {
+    @apply py-20 bg-coral;
+  }
+  
+  /* Cards */
+  .pricing-card {
+    @apply bg-white rounded-3xl p-8 md:p-12 shadow-2xl border-4 border-tech-grey max-w-3xl mx-auto text-center
+           transform transition-all duration-300 hover:scale-105;
+  }
+  
+  .feature-card {
+    @apply bg-gray-50 rounded-2xl p-8 text-center transform transition-all duration-300 
+           hover:shadow-xl hover:-translate-y-2;
+  }
+  
+  .feature-icon {
+    @apply w-20 h-20 bg-coral rounded-2xl flex items-center 
+           justify-center mx-auto mb-6 text-white transform transition-all duration-300
+           group-hover:rotate-6;
+  }
+  
+  /* Phone Mockup */
+  .phone-mockup {
+    @apply w-72 h-[600px] bg-charcoal rounded-[3rem] p-3 shadow-2xl relative;
+  }
+  
+  .phone-screen {
+    @apply w-full h-full bg-white rounded-[2.5rem] overflow-hidden flex flex-col;
+  }
+  
+  .chat-header {
+    @apply bg-green-600 p-4 text-white;
+  }
+  
+  .chat-body {
+    @apply flex-1 bg-green-50 p-4 flex items-end;
+  }
+  
+  .chat-bubble {
+    @apply max-w-[85%] ml-auto;
+  }
+  
+  .price-display {
+    @apply flex items-baseline justify-center gap-2 my-8;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.phone-mockup {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background-color: coral;
+  color: white;
 }
