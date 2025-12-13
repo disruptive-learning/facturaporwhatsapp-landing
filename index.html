@@ -38,30 +38,114 @@
             <div class="flex justify-center">
                 <div class="phone-mockup">
                     <div class="phone-screen">
+                        <!-- WhatsApp Header -->
                         <div class="chat-header">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
-                                <div>
-                                    <p class="font-bold text-sm">Cliente:</p>
-                                    <p class="text-xs text-gray-600">Necesito factura</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                    <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+                                    <div>
+                                        <p class="font-bold text-sm text-white">Juan Pérez</p>
+                                        <p class="text-xs text-gray-200">en línea</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Chat Messages -->
                         <div class="chat-body">
-                            <div class="chat-bubble">
-                                <div class="flex items-center gap-2 bg-coral/10 p-4 rounded-lg border border-coral/20">
-                                    <svg class="w-8 h-8 text-coral" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
-                                    </svg>
-                                    <div>
-                                        <p class="font-bold text-sm">Factura Enviada</p>
-                                        <p class="text-xs text-gray-600">(CFDI)</p>
-                                    </div>
-                                    <svg class="w-4 h-4 ml-auto text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
+                            <!-- Client message -->
+                            <div class="flex justify-start mb-2 chat-message chat-message-1">
+                                <div class="bg-white rounded-lg rounded-tl-none px-3 py-2 max-w-[75%] shadow-sm">
+                                    <p class="text-sm text-gray-800">Necesito factura</p>
+                                    <p class="text-xs text-gray-500 text-right mt-1">10:23</p>
                                 </div>
                             </div>
+
+                            <!-- Our response -->
+                            <div class="flex justify-end mb-2 chat-message chat-message-2">
+                                <div class="bg-[#dcf8c6] rounded-lg rounded-tr-none px-3 py-2 max-w-[75%]">
+                                    <p class="text-sm text-gray-800">¡Claro! Envíame tus datos fiscales</p>
+                                    <p class="text-xs text-gray-600 text-right mt-1">10:24 ✓✓</p>
+                                </div>
+                            </div>
+
+                            <!-- Client message with data -->
+                            <div class="flex justify-start mb-2 chat-message chat-message-3">
+                                <div class="flex gap-2 bg-white rounded-lg rounded-tl-none px-3 py-2 max-w-[75%] shadow-sm">
+                                        <svg class="w-8 h-8 text-coral" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                                        </svg>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-xs text-gray-800">Constancia.pdf</p>
+                                            <p class="text-xs text-gray-500">1.3 MB</p>
+                                        </div>
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                </div>
+                            </div>
+
+                            <!-- Invoice attachment -->
+                            <div class="flex justify-end chat-message chat-message-4">
+                                <div class="bg-[#dcf8c6] rounded-lg rounded-tr-none px-3 py-2 max-w-[75%]">
+                                    <div class="flex items-center gap-2 bg-white p-3 rounded-lg border border-gray-200">
+                                        <svg class="w-8 h-8 text-coral" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                                        </svg>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-xs text-gray-800">Factura.pdf</p>
+                                            <p class="text-xs text-gray-500">900 KB</p>
+                                        </div>
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white p-3 rounded-lg border border-gray-200">
+                                        <svg class="w-8 h-8 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                                        </svg>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-xs text-gray-800">Factura.xml</p>
+                                            <p class="text-xs text-gray-500">CFDI 4.0</p>
+                                        </div>
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs text-gray-600 text-right mt-1">10:26 ✓✓</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp Input Bar -->
+                        <div class="bg-gray-100 px-2 py-2 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="flex-1 bg-white rounded-full px-4 py-2">
+                                <p class="text-sm text-gray-500">Mensaje</p>
+                            </div>
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                            </svg>
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -79,7 +163,8 @@
                     <span class="text-3xl md:text-4xl font-bold text-gray-700">/ mes</span>
                 </div>
                 <p class="text-xl font-semibold mt-4">+ $1 MXN por factura emitida.</p>
-                <p class="text-lg text-gray-600 mt-2">Cancela cuando quieras. Sin contratos forzosos.</p>
+                <p class="text-lg text-gray-600 mt-1">Cancela cuando quieras. Sin contratos forzosos.</p>
+                <button class="btn-primary no-animate text-lg mt-4">COMIENZA YA</button>
             </div>
         </div>
     </section>
@@ -139,7 +224,7 @@
                     <img src="/facturaporwhatsapp.png" alt="Factura por WhatsApp" class="h-15">
                 </div>
                 <div class="text-sm text-gray-400">
-                    <p>© 2024 Factura por WhatsApp. Todos los derechos reservados.</p>
+                    <p>© <span id="footer-year">2024</span> Factura por WhatsApp. Todos los derechos reservados.</p>
                     <div class="flex gap-4 justify-center md:justify-end mt-2">
                         <a href="#" class="hover:text-coral transition-colors">Privacidad</a>
                         <span>|</span>
@@ -149,5 +234,70 @@
             </div>
         </div>
     </footer>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-modal" class="modal-close" aria-label="Cerrar modal">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <h2 class="modal-title">¡Comienza a Facturar!</h2>
+            <p class="modal-description">
+                Déjanos tus datos y nuestro agente te contactará por WhatsApp para comenzar.
+                Al enviar este formulario, aceptas recibir mensajes vía WhatsApp.
+            </p>
+
+            <form id="contact-form" class="modal-form">
+                <div class="form-group">
+                    <label for="full-name" class="form-label">Nombre Completo</label>
+                    <input
+                        type="text"
+                        id="full-name"
+                        name="fullName"
+                        required
+                        class="form-input"
+                        placeholder="Juan Pérez"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone-number" class="form-label">Número de Teléfono</label>
+                    <input
+                        type="tel"
+                        id="phone-number"
+                        name="phoneNumber"
+                        required
+                        class="form-input"
+                        placeholder="+52 55 1234 5678"
+                    >
+                    <div id="phone-error" class="form-error-message hidden"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            id="terms-checkbox"
+                            name="termsAccepted"
+                            required
+                            class="mt-1 w-5 h-5 rounded border-2 border-gray-300 text-coral focus:ring-coral focus:ring-2"
+                        >
+                        <span class="text-sm text-gray-700">
+                            Acepto los <a href="#" class="text-coral hover:underline font-bold">términos y condiciones</a>
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary w-full">
+                    ENVIAR
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

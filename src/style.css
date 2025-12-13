@@ -79,7 +79,7 @@
   /* Cards */
   .pricing-card {
     @apply bg-white rounded-3xl p-8 md:p-12 shadow-2xl border-4 border-tech-grey max-w-3xl mx-auto text-center
-           transform transition-all duration-300 hover:scale-105;
+           transform transition-all duration-300 hover:shadow-xl;
   }
   
   .feature-card {
@@ -107,7 +107,7 @@
   }
   
   .chat-body {
-    @apply flex-1 bg-green-50 p-4 flex items-end;
+    @apply flex-1 bg-green-50 p-4 flex flex-col;
   }
   
   .chat-bubble {
@@ -116,6 +116,59 @@
   
   .price-display {
     @apply flex items-baseline justify-center gap-2 my-8;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.hidden {
+    @apply hidden;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-3xl p-8 md:p-10 max-w-md w-full relative shadow-2xl;
+    animation: modalSlideIn 0.3s ease-out;
+  }
+
+  .modal-close {
+    @apply absolute top-4 right-4 text-gray-400 hover:text-coral transition-colors;
+  }
+
+  .modal-title {
+    @apply text-3xl md:text-4xl font-black text-charcoal mb-4;
+  }
+
+  .modal-description {
+    @apply text-gray-600 mb-6 leading-relaxed;
+  }
+
+  .modal-form {
+    @apply space-y-5;
+  }
+
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-label {
+    @apply block text-sm font-bold text-charcoal uppercase tracking-wide;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-gray-200
+           focus:border-coral focus:outline-none transition-colors
+           text-charcoal placeholder:text-gray-400;
+  }
+
+  .form-input.error {
+    @apply border-red-500 focus:border-red-500;
+  }
+
+  .form-error-message {
+    @apply text-red-500 text-sm mt-1;
   }
 }
 
@@ -129,8 +182,51 @@
   }
 }
 
+@keyframes messageSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .phone-mockup {
   animation: float 3s ease-in-out infinite;
+}
+
+.chat-message {
+  opacity: 0;
+  animation: messageSlideIn 0.5s ease-out forwards;
+}
+
+.chat-message-1 {
+  animation-delay: 0.3s;
+}
+
+.chat-message-2 {
+  animation-delay: 0.9s;
+}
+
+.chat-message-3 {
+  animation-delay: 1.5s;
+}
+
+.chat-message-4 {
+  animation-delay: 2.1s;
 }
 
 /* Smooth Scroll */
