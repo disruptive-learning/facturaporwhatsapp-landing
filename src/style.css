@@ -140,7 +140,7 @@
   }
 
   .pricing-card:hover {
-    transform: rotate(0deg) translate(-2px, -2px);
+    transform: rotate(-1deg) translate(-2px, -2px);
     box-shadow: 16px 16px 0px 0px rgba(0, 0, 0, 1);
   }
   
