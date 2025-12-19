@@ -13,14 +13,17 @@ const modal = document.getElementById('contact-modal');
 const closeModalBtn = document.getElementById('close-modal');
 const contactForm = document.getElementById('contact-form') as HTMLFormElement;
 
-// Get all CTA buttons
-const ctaButtons = document.querySelectorAll('.btn-primary, .btn-secondary');
+// Get all CTA buttons (but NOT the form submit button)
+const ctaButtons = document.querySelectorAll('.btn-primary:not([type="submit"]), .btn-secondary:not([type="submit"])');
+
+let modalOpenedAt: number | null = null;
 
 // Function to open modal
 function openModal() {
   if (modal) {
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    modalOpenedAt = Date.now();
   }
 }
 
@@ -32,7 +35,7 @@ function closeModal() {
   }
 }
 
-// Add click event to all CTA buttons
+// Add click event to all CTA buttons (excluding submit button)
 ctaButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.preventDefault();
@@ -65,6 +68,10 @@ document.addEventListener('keydown', (e) => {
 const phoneInput = document.getElementById('phone-number') as HTMLInputElement;
 const phoneError = document.getElementById('phone-error');
 
+// Form message elements
+const formError = document.getElementById('form-error');
+const formSuccess = document.getElementById('form-success');
+
 // E.164 validation: + followed by 1-15 digits, first digit cannot be 0
 function isValidE164(phone: string): boolean {
   const e164Regex = /^\+[1-9]\d{1,14}$/;
@@ -96,7 +103,6 @@ function cleanPhoneInput(value: string): string {
 // Add Mexico country code if needed
 function addMexicoCountryCode(phone: string): string {
   // If it's just + followed by exactly 10 digits, add 52
-  console.log('im here', phone);
   const match = phone.match(/^\+(\d{10})$/);
   if (match) {
     return '+52' + match[1];
@@ -119,6 +125,40 @@ function hidePhoneError() {
     phoneInput.classList.remove('error');
     phoneError.textContent = '';
     phoneError.classList.add('hidden');
+  }
+}
+
+// Show form error message
+function showFormError(message: string) {
+  if (formError) {
+    formError.textContent = message;
+    formError.classList.remove('hidden');
+  }
+  hideFormSuccess();
+}
+
+// Hide form error message
+function hideFormError() {
+  if (formError) {
+    formError.textContent = '';
+    formError.classList.add('hidden');
+  }
+}
+
+// Show form success message
+function showFormSuccess(message: string) {
+  if (formSuccess) {
+    formSuccess.textContent = message;
+    formSuccess.classList.remove('hidden');
+  }
+  hideFormError();
+}
+
+// Hide form success message
+function hideFormSuccess() {
+  if (formSuccess) {
+    formSuccess.textContent = '';
+    formSuccess.classList.add('hidden');
   }
 }
 
@@ -230,37 +270,119 @@ if (phoneInput) {
 
 // Handle form submission
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    // Clear any existing messages
+    hideFormError();
+    hideFormSuccess();
+
     const formData = new FormData(contactForm);
-    const fullName = formData.get('fullName');
+
+    const fullName = (formData.get('fullName') as string || '').trim();
     const phoneNumber = formData.get('phoneNumber') as string;
     const termsAccepted = formData.get('termsAccepted');
+    const honeypot = formData.get('company'); // 👈 honeypot field
 
-    // Check if terms are accepted
-    if (!termsAccepted) {
-      alert('Por favor acepta los términos y condiciones para continuar.');
+    // Honeypot triggered → silently ignore
+    if (honeypot) {
+      console.warn('Spam detected (honeypot)');
       return;
     }
 
-    // Validate phone number before submission (should already be validated on blur)
+    // Terms check
+    if (!termsAccepted) {
+      showFormError('Por favor acepta los términos y condiciones para continuar.');
+      return;
+    }
+
+    // Validate phone
     const validation = validatePhone(phoneNumber, true);
     if (!validation.valid) {
       showPhoneError(validation.message || 'Por favor ingresa un número válido');
       return;
     }
 
-    // Here you would typically send the data to your backend
-    console.log('Form submitted:', { fullName, phoneNumber, termsAccepted });
+    // Basic name validation
+    if (fullName.length < 2) {
+      showFormError('Por favor ingresa tu nombre completo.');
+      return;
+    }
 
-    // Show success message (you can customize this)
-    alert(`¡Gracias, ${fullName}! Nuestro agente te contactará pronto al ${phoneNumber}.`);
+    // Disable submit button to prevent double submits
+    const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+    if (submitBtn) submitBtn.disabled = true;
 
-    // Reset form and close modal
-    contactForm.reset();
-    if (phoneInput) phoneInput.value = '+'; // Reset phone to +
-    hidePhoneError();
-    closeModal();
+    // Determine webhook URL based on environment
+    const isLocalhost = window.location.hostname === 'localhost' ||
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.hostname === '';
+
+    let webhookUrl = '';
+    if (isLocalhost){
+      webhookUrl = 'https://n8n.gigstack.io/webhook-test/facturaporwhatsapp';
+    } else {
+      webhookUrl = 'https://n8n.gigstack.io/webhook/facturaporwhatsapp';
+    }
+
+    // Cool marketing stuff
+    const timeToSubmit = modalOpenedAt ? Math.round((Date.now() - modalOpenedAt) / 1000) : null;
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('utm_source');
+    const medium = params.get('utm_medium');
+    const campaign = params.get('utm_campaign');
+    const content = params.get('utm_content');
+    const term = params.get('utm_term');
+
+    try {
+      const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fullName,
+            phoneNumber,
+            source: 'landing-page',
+            locale: 'es-MX',
+            userAgent: navigator.userAgent,
+            timestamp: new Date().toISOString(),
+            utm: { source, medium, campaign, content, term },
+            device: { width: window.innerWidth, height: window.innerHeight },
+            engagement: { timeToSubmit }
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        // Try to get error message from response
+        const errorText = await response.text();
+        console.error('Server response:', errorText);
+        throw new Error(`Error del servidor: ${response.status}. Por favor intenta de nuevo.`);
+      }
+
+      // If we got here, the request was successful (200 status)
+      const result = await response.json();
+      console.log('Webhook response:', result);
+
+      // Show success message
+      showFormSuccess(`¡Gracias, ${fullName}! Nuestro agente te contactará pronto por WhatsApp.`);
+
+      // Reset form after a short delay
+      setTimeout(() => {
+        contactForm.reset();
+        if (phoneInput) phoneInput.value = '+';
+        hidePhoneError();
+        hideFormSuccess();
+        closeModal();
+      }, 3000);
+    } catch (err) {
+      console.error('Form submit error:', err);
+      // Show user-friendly error message
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido. Por favor intenta de nuevo.';
+      showFormError(errorMessage);
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 }

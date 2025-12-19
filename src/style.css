@@ -249,6 +249,11 @@
   .form-error-message {
     @apply text-coral text-sm mt-1 font-bold;
   }
+
+  .form-success-message {
+    @apply bg-green-100 border-3 border-green-600 text-green-800 px-4 py-3 font-bold rounded-none;
+    box-shadow: 4px 4px 0px 0px rgba(0, 128, 0, 0.3);
+  }
 }
 
 /* Animations */
