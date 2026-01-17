@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autorización - Factura por WhatsApp</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body class="font-metropolis text-charcoal bg-white">
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white shadow-sm z-50">
+        <nav class="container-custom py-4 flex justify-between items-center">
+            <a href="/" class="flex items-center gap-2">
+                <img src="/facturaporwhatsapp.png" alt="Factura por WhatsApp" class="h-15">
+            </a>
+            <a href="/" class="text-coral hover:underline font-semibold">Volver al inicio</a>
+        </nav>
+    </header>
+
+    <!-- Content -->
+    <section class="pt-32 pb-16 min-h-screen flex items-center">
+        <div class="container-custom max-w-2xl text-center">
+            <!-- Loading state -->
+            <div id="loading-state">
+                <div class="animate-pulse">
+                    <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gray-200"></div>
+                    <div class="h-8 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+                </div>
+            </div>
+
+            <!-- Success state -->
+            <div id="success-state" class="hidden">
+                <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1 class="heading-1 mb-4">Autorización Exitosa</h1>
+                <p class="text-gray-600 mb-8">
+                    Tu cuenta de WhatsApp ha sido conectada correctamente.
+                </p>
+                <p class="text-sm text-gray-500 mb-8">
+                    Puedes cerrar esta ventana.
+                </p>
+            </div>
+
+            <!-- Error state -->
+            <div id="error-state" class="hidden">
+                <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-red-100 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <h1 class="heading-1 mb-4">Error de Autorización</h1>
+                <p class="text-gray-600 mb-4">
+                    Hubo un problema al conectar tu cuenta.
+                </p>
+                <p id="error-message" class="text-sm text-red-600 mb-8"></p>
+                <a href="/" class="btn-primary">Volver al inicio</a>
+            </div>
+
+            <!-- No params state -->
+            <div id="no-params-state" class="hidden">
+                <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h1 class="heading-1 mb-4">Página de Autorización</h1>
+                <p class="text-gray-600 mb-8">
+                    Esta página se utiliza para procesar autorizaciones de WhatsApp Business.
+                </p>
+                <a href="/" class="btn-primary">Volver al inicio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-8">
+        <div class="container-custom">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <img src="/facturaporwhatsapp.png" alt="Factura por WhatsApp" class="h-15">
+                </div>
+                <div class="text-sm text-gray-400">
+                    <p>© <span id="footer-year"></span> Factura por WhatsApp. Todos los derechos reservados.</p>
+                    <div class="flex gap-4 justify-center md:justify-end mt-2">
+                        <a href="/privacidad.html" class="hover:text-coral transition-colors">Privacidad</a>
+                        <span>|</span>
+                        <a href="/terminos.html" class="hover:text-coral transition-colors">Términos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Update footer year
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        const error = urlParams.get('error');
+        const errorDescription = urlParams.get('error_description');
+
+        // Hide loading state
+        document.getElementById('loading-state').classList.add('hidden');
+
+        if (error) {
+            // Show error state
+            document.getElementById('error-state').classList.remove('hidden');
+            document.getElementById('error-message').textContent =
+                errorDescription || error || 'Error desconocido';
+        } else if (code) {
+            // Show success state
+            document.getElementById('success-state').classList.remove('hidden');
+
+            // Log for debugging (can be removed in production)
+            console.log('Authorization code received:', code);
+            if (state) {
+                console.log('State:', state);
+            }
+        } else {
+            // No params - show info state
+            document.getElementById('no-params-state').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
