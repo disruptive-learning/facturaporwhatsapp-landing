@@ -313,17 +313,13 @@ if (contactForm) {
     const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement;
     if (submitBtn) submitBtn.disabled = true;
 
-    // Determine webhook URL based on environment
-    const isLocalhost = window.location.hostname === 'localhost' ||
-                        window.location.hostname === '127.0.0.1' ||
-                        window.location.hostname === '';
-
-    let webhookUrl = '';
-    if (isLocalhost){
-      webhookUrl = 'https://n8n.gigstack.io/webhook-test/facturaporwhatsapp';
-    } else {
-      webhookUrl = 'https://n8n.gigstack.io/webhook/facturaporwhatsapp';
-    }
+    // Determine API URL based on environment using the URL Web API
+    const currentUrl = new URL(window.location.href);
+    const parts = currentUrl.hostname.split('.');
+    const rootDomain = parts.length > 2 ? parts.slice(1).join('.') : currentUrl.hostname;
+    const isStaging = currentUrl.hostname === 'localhost' || currentUrl.hostname.includes('staging');
+    const subdomain = isStaging ? 'staging' : 'app';
+    const webhookUrl = `https://${subdomain}.${rootDomain}/outreach/prospect`;
 
     // Cool marketing stuff
     const timeToSubmit = modalOpenedAt ? Math.round((Date.now() - modalOpenedAt) / 1000) : null;
