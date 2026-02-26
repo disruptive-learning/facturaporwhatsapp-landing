@@ -1,0 +1,100 @@
+# Factura por WhatsApp
+
+> Factura por WhatsApp es un servicio de facturación electrónica para negocios mexicanos que opera 100% a través de WhatsApp. Un agente de inteligencia artificial guía al usuario para emitir CFDIs 4.0 válidos ante el SAT, gestionar clientes y servicios, y enviar comprobantes por email o WhatsApp — sin instalar software, sin abrir portales, y sin curva de aprendizaje.
+
+## Pricing
+
+- $399 MXN/mes (suscripción mensual)
+- +$1 MXN por cada CFDI emitido
+- Sin contratos forzosos, cancela cuando quieras
+
+## How It Works
+
+The user sends a WhatsApp message describing what they need. An AI agent handles the full workflow conversationally: it collects the necessary fiscal data, looks up or creates a client and service, confirms totals, stamps the CFDI with SAT, and delivers the PDF and XML to the recipient via WhatsApp or email — all without leaving the chat.
+
+### Typical invoice flow
+1. User says: "Hazme una factura para CEMEX por consultoría $5,000"
+2. Agent finds or creates the client (RFC, régimen fiscal, código postal)
+3. Agent reuses or creates the service (clave de producto SAT, precio unitario, impuestos)
+4. Agent asks for delivery method: email or WhatsApp
+5. Agent shows a full confirmation summary with subtotal, taxes (IVA, IEPS, etc.), and total
+6. User confirms, invoice is stamped immediately with SAT
+7. PDF and XML (CFDI 4.0) are sent to the recipient
+
+### Constancia de Situación Fiscal
+Users can upload a Constancia de Situación Fiscal (PDF from the SAT portal) directly in the chat. The agent parses it automatically and pre-fills all fiscal fields — RFC, Razón Social, Régimen Fiscal, and Código Postal — eliminating manual data entry.
+
+## Document Types
+
+### Factura / CFDI (create_invoice)
+Also known as: factura, CFDI, timbrar, timbre fiscal, comprobante fiscal.
+Creates and stamps a CFDI 4.0 directly with SAT. The invoice is immediate and final. Requires the client's full fiscal data: RFC, Razón Social, Régimen Fiscal, and Código Postal.
+
+### Recibo / Portal de Autofactura (create_receipt)
+Also known as: recibo, ticket, portal de autofactura, autofactura, nota de venta.
+Creates a self-invoicing portal where the end client enters their own fiscal data and generates their own CFDI later. Useful when the subscriber does not have the client's RFC at point of sale. Minimal data required: just the client's name and a delivery contact.
+
+### Factura de Prueba (create_test_invoice)
+Also known as: factura de prueba, prueba, factura de ejemplo.
+Creates a sandbox CFDI using a standard test RFC. No fiscal impact, no emails sent. The PDF is delivered to the user via WhatsApp. Used to preview the invoicing experience before going live.
+
+## Features
+
+### Client Management
+- Create and update clients with full fiscal data (RFC, Razón Social, Régimen Fiscal, Código Postal)
+- Search clients by tax ID, email, name, or phone
+- Upsert behavior: if a client already exists, it is updated rather than duplicated
+- For invoices to general public (no RFC): uses XAXX010101000 ("Público en General") as a fallback
+
+### Service / Product Catalog
+- Create reusable services with SAT product key (clave de producto), unit key (clave de unidad), unit price, and taxes
+- Agent always checks for existing services before creating a new one to prevent duplicates
+- Services can be updated (e.g., price changes)
+- Default tax: IVA 16% trasladado; supports IVA 0%, IEPS, ISR withholding, and multiple simultaneous taxes
+
+### SAT Code Handling
+- Agent applies knowledge of common SAT product codes (e.g., 80141503 for consulting, 81111500 for software engineering, 86132000 for training)
+- Codes are verified against SAT catalogs before use
+- Supports search and suggestions when common codes don't match
+
+### Invoice Cancellation
+- Cancel a stamped CFDI directly with SAT
+- Supported cancellation motives:
+  - 01: Replaced by another invoice (requires UUID of replacement)
+  - 02: Issued with errors, no replacement
+  - 03: Operation was not completed
+  - 04: Related to a global invoice
+- Always requires user confirmation before submitting cancellation to SAT
+
+### Received Documents
+- List all CFDIs and receipts received from third-party issuers
+- Filter by issuer name
+- View folio, UUID, totals, and download PDF/XML
+
+### Delivery
+- Send invoices and receipts via WhatsApp (PDF + XML as document attachments)
+- Send invoices and receipts via email
+- Retrieve PDF/XML links at any time for a previously stamped invoice
+
+### Subscription Management
+- Users can cancel their subscription through the chat
+- Cancellation defaults to end-of-period (user retains access until billing cycle ends)
+- Immediate cancellation available on explicit request
+
+## SAT Compliance
+
+- CFDI version: 4.0 (current mandatory standard in Mexico)
+- Validates RFC format and fiscal data before stamping
+- Supports all standard tax regimes (regímenes fiscales)
+- Supports all CFDI use cases (usos de CFDI): G01, G03, P01, S01, etc.
+- Supports common tax types: IVA 16%, IVA 0%, IEPS, ISR withholding
+
+## Underlying Platform
+
+Factura por WhatsApp is built on Gigstack (gigstack.pro), an invoicing and fiscal management platform for Mexican businesses. The WhatsApp interface is powered by an AI agent using LangChain and Google Gemini.
+
+## Pages
+
+- [Inicio](https://facturaporwhatsapp.com/): Landing page with product overview, demo, and pricing
+- [Términos y Condiciones](https://facturaporwhatsapp.com/terminos.html)
+- [Política de Privacidad](https://facturaporwhatsapp.com/privacidad.html)
