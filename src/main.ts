@@ -270,6 +270,17 @@ if (phoneInput) {
 
 // Handle form submission
 if (contactForm) {
+  const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const formInputs = contactForm.querySelectorAll('input');
+
+  function setFormLoading(loading: boolean) {
+    if (submitBtn) {
+      submitBtn.disabled = loading;
+      submitBtn.classList.toggle('btn-loading', loading);
+    }
+    formInputs.forEach(input => { input.disabled = loading; });
+  }
+
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -309,9 +320,7 @@ if (contactForm) {
       return;
     }
 
-    // Disable submit button to prevent double submits
-    const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement;
-    if (submitBtn) submitBtn.disabled = true;
+    setFormLoading(true);
 
     // Determine API URL based on environment using the URL Web API
     const currentUrl = new URL(window.location.href);
@@ -366,6 +375,7 @@ if (contactForm) {
 
       // Reset form after a short delay
       setTimeout(() => {
+        setFormLoading(false);
         contactForm.reset();
         if (phoneInput) phoneInput.value = '+';
         hidePhoneError();
@@ -377,8 +387,7 @@ if (contactForm) {
       // Show user-friendly error message
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido. Por favor intenta de nuevo.';
       showFormError(errorMessage);
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
+      setFormLoading(false);
     }
   });
 }
